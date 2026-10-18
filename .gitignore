@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Data files are tracked by DVC. Only the .dvc pointer files go to git.
+data/raw/
+data/processed/
+
+# MLflow local tracking store (recreated by training, not shared)
+mlflow.db
+mlruns/
+mlartifacts/
+
+# The trained model is small and the app needs it at runtime, so commit it.
+!ml/registry/*.pkl
+
+# DVC site/cache dirs (only present if configured on Windows)
+.dvc-site/
+.dvc-cache/
+
+# Misc
+*.log
+.DS_Store
+_reference/
