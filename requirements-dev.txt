@@ -1,0 +1,7 @@
+-r requirements.txt
+matplotlib==3.11.2
+mlflow==3.17.1
+pytest==9.1.1
+httpx==0.28.1
+ruff
+dvc[azure]
