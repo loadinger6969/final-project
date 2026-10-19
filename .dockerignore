@@ -1,0 +1,23 @@
+.git
+.github
+.gitignore
+tests
+**/__pycache__
+*.pyc
+.pytest_cache
+.venv
+venv
+# raw data and training code never go into the inference image
+data/raw
+data/processed
+data/processed.dvc
+ml/train.py
+ml/data_pipeline.py
+ml/configs
+ml/registry/confusion_matrix.png
+mlflow.db
+mlruns
+mlartifacts
+*.log
+*.md
+_reference
