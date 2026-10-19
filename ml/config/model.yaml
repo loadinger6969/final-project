@@ -1,0 +1,18 @@
+# Model and data settings used by ml/train.py.
+
+data:
+  version: v2
+  test_size: 0.2
+  random_state: 42
+
+baseline:
+  model: logistic_regression
+  max_iter: 1000
+  class_weight: balanced
+
+improved:
+  model: random_forest
+  n_estimators: 400
+  max_depth: 10
+  min_samples_leaf: 3
+  class_weight: balanced
