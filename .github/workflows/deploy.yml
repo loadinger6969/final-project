@@ -1,0 +1,41 @@
+name: CD
+
+# Runs after code is merged into staging or main.
+# Builds an environment-specific image using environment-specific secrets.
+on:
+  push:
+    branches: [staging, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Choose environment from branch
+        id: env
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "staging" ]; then
+            echo "name=staging" >> "$GITHUB_OUTPUT"
+            echo "tag=staging" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=production" >> "$GITHUB_OUTPUT"
+            echo "tag=production" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate the .env file from that environment's secrets
+        run: |
+          ENV_NAME="${{ steps.env.outputs.name }}"
+          {
+            echo "APP_ENV=${ENV_NAME}"
+            if [ "${ENV_NAME}" = "staging" ]; then
+              echo "API_KEY=${{ secrets.STAGING_API_KEY }}"
+            else
+              echo "API_KEY=${{ secrets.PRODUCTION_API_KEY }}"
+            fi
+          } > .env
+          echo "Created .env for ${ENV_NAME}:"
+          cat .env
+
+      - name: Build the image for that environment
+        run: docker build -t "wine-app:${{ steps.env.outputs.tag }}" .
